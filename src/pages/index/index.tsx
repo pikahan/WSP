@@ -3,10 +3,28 @@ import { View } from '@tarojs/components'
 import  { AtForm, AtButton, AtInput } from 'taro-ui'
 
 import './index.scss'
+import {useDispatch} from '@tarojs/redux'
+import useEffect = Taro.useEffect
+import {setUserData} from '../../actions/user'
+import {REQUEST_URL} from '../../constants/counter'
+import {fetchData} from '../../actions/enterprise'
 
 
 
 const Index = () => {
+
+  const dispatch = useDispatch()
+  useEffect(() => {
+    const userInfo = Taro.getStorageSync("userInfo")
+    if (userInfo) {
+      dispatch(setUserData(userInfo))
+      Taro.switchTab({
+        url: '/pages/safetyHazard/safetyHazard',
+
+      })
+    }
+    console.log(userInfo)
+  }, [])
 
   const [loginData, setLoginData] = useState({
     username: '',
@@ -14,8 +32,29 @@ const Index = () => {
   })
 
   const login = () => {
+
+    Taro.request({
+      url: `${REQUEST_URL}login`,
+      method: 'POST',
+      data: JSON.stringify(loginData),
+      header: {'content-type': 'application/json;charset=utf-8'},
+      complete(res) {
+        console.log(res)
+        let { data,  statusCode} = res as any
+        if (statusCode === 200) {
+          console.log(data)
+          // dispatch(setUserData(userInfo))
+          dispatch(setUserData({
+            username: 'admin',
+            userType: '管理员',
+            enterpriseId: 1
+          }))
+
+        }
+      }
+    })
     Taro.switchTab({
-      url: '/pages/enterpriseManagement/enterpriseManagement'
+      url: '/pages/safetyHazard/safetyHazard',
     })
     console.log('register')
 
@@ -26,7 +65,7 @@ const Index = () => {
   }
 
   const setInputValue = (key, e) => {
-    setLoginData({...loginData, [key]: e.target.value})
+    setLoginData({...loginData, [key]: e})
   }
 
   return (
@@ -52,12 +91,10 @@ const Index = () => {
         />
         <View className="btn-group-item">
           <AtButton type='primary' formType='submit'>提交</AtButton>
-
         </View>
         <View className="btn-group-item">
           <AtButton onClick={register} >注册</AtButton>
         </View>
-
       </AtForm>
     </View>
   )

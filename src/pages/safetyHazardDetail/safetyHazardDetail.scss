@@ -1,0 +1,55 @@
+.at-input input {
+  padding-right: 52px;
+  text-align: right;
+}
+
+.form-input_number {
+  line-height: 102px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 26px;
+  Text {
+    font-size: 17PX;
+    color: rgba(0, 0, 0, .8);
+  }
+}
+
+.form-item {
+  padding-top: 10px;
+  border-top: 1px solid rgba(208,230,255,0.95);
+  margin-bottom: 20px;
+  .form-item-title {
+    margin-bottom: 30px;
+
+  }
+
+  .form-item-label {
+    margin-top: 20px;
+    margin-left: 24px;
+  }
+
+  .form-item-content {
+    padding: 14px;
+  }
+
+  .file-name {
+    margin-left: 33px;
+    margin-top: 20px;
+
+    color: rgba(0, 0, 0, .4);
+    flex: 1;
+  }
+
+  .file-upload-btn {
+    margin-right: 20px;
+  }
+}
+
+
+.form-submit_btn {
+  padding: 14px;
+}
+
+.flex-wrapper {
+  display: flex;
+}

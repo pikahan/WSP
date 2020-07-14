@@ -1,0 +1,45 @@
+.enterprise-management-wrapper {
+  position: relative;
+
+  .title {
+    width: 100%;
+    background: #ccc;
+    text-align: center;
+    font-size: 24PX;
+    height: 60PX;
+    line-height: 60PX;
+  }
+
+  .search-bar-wrapper {
+    display: flex;
+    justify-content: center;
+
+    .search-bar-item {
+      line-height: 42PX;
+    }
+
+    Text {
+      margin-left: 4PX;
+    }
+
+    .filter {
+      margin-right: 8PX;
+    }
+
+    .search-bar {
+      flex: 1;
+    }
+  }
+
+  .float-btn {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+  }
+
+}
+
+
+
+
+

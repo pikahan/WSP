@@ -1,9 +1,9 @@
 import Taro, { useState } from '@tarojs/taro'
-import {Text, View} from '@tarojs/components'
-import { AtSearchBar, AtDrawer, AtFab, AtInput } from 'taro-ui'
+// import {Text, View} from '@tarojs/components'
 import './personManagement.scss'
 import PersonList from '../../components/personList/index'
-import AdvancedSearch from '../../components/advancedSearch'
+import AdvancedSearchPage from '../../components/advancedSearchPage'
+import AdvancedSearchContent, {PersonFormData} from './advancedSearchContent'
 
 const fakePersonData = [
   {
@@ -20,99 +20,44 @@ const fakePersonData = [
 
 const PersonManagement = () => {
   const [name, setName] = useState('')
-
-
-  const initialAdvancedSearchOption = {
+  const initialAdvancedSearchOption: PersonFormData = {
     enterpriseName: '',
     role: ''
   }
-
   const [advancedSearchOption, setAdvancedSearchOption] = useState(initialAdvancedSearchOption)
-  const [show, setShow] = useState(false)
-
-
-  const onNameChange = value => {
-    setName(value)
+  const setInputValue = (key, value) => {
+    setAdvancedSearchOption({...advancedSearchOption, [key]: value})
   }
 
-  const onSearchClick = () => {
-    console.log('开始搜索')
-  }
-
-  const showFilterDrawer = () => {
-    setShow(true)
-  }
-  const closeFilterDrawer = () => {
-    setShow(false)
-  }
-
-  const advancedSearch = () => {
-    console.log('advancedSearch')
+  const advancedSearchBtnClick = () => {
+    console.log('AdvancedSearchBtnClick')
+    console.log(advancedSearchOption)
   }
 
   const advancedSearchReset = () => {
-    setAdvancedSearchOption(initialAdvancedSearchOption)
+    console.log('AdvancedSearchBtnClick')
   }
 
-  const setInputValue = (key, e) => {
-    setAdvancedSearchOption({...advancedSearchOption, [key]: e.target.value})
+  const searchBtnClick = () => {
+    console.log('searchBtnClick')
   }
+
+  const searchContentChange = value => {
+    setName(value)
+    console.log('searchContentChange')
+  }
+
 
   return (
-    <View className="enterprise-management-wrapper">
-      <View className="search-bar-wrapper">
-        <Text className="search-bar-item">搜索</Text>
-        <View
-          className="search-bar"
-        >
-          <AtSearchBar
-            value={name}
-            onChange={onNameChange}
-            onActionClick={onSearchClick}
-          />
-        </View>
-        <View
-          onClick={showFilterDrawer}
-          className='at-icon at-icon-filter search-bar-item filter'
-        />
-      </View>
-
-      <PersonList personData={fakePersonData}/>
-
-      <AtDrawer
-        show={show}
-        right
-        mask
-        onClose={closeFilterDrawer}
-      >
-        <AdvancedSearch
-          onSearch={advancedSearch}
-          onReset={advancedSearchReset}
-        >
-          <View>
-            <AtInput
-              name='企业'
-              title='企业'
-              type='text'
-              placeholder='输入企业'
-              value={advancedSearchOption.enterpriseName}
-              onChange={e => setInputValue('enterpriseName', e)}
-            />
-            <AtInput
-              name='role'
-              title='类型'
-              type='text'
-              placeholder='输入用户类型'
-              value={advancedSearchOption.role}
-              onChange={e => setInputValue('role', e)}
-            />
-          </View>
-        </AdvancedSearch>
-      </AtDrawer>
-      <AtFab className="float-btn">
-        <Text className='at-fab__icon at-icon at-icon-add'></Text>
-      </AtFab>
-    </View>
+    <AdvancedSearchPage
+      renderAdvancedSearchContent={<AdvancedSearchContent onValueChange={setInputValue} personFormData={advancedSearchOption} />}
+      renderList={<PersonList personData={fakePersonData} />}
+      searchContent={name}
+      onAdvancedSearchBtnClick={advancedSearchBtnClick}
+      onAdvancedSearchReset={advancedSearchReset}
+      onSearchBtnClick={searchBtnClick}
+      onSearchContentChange={searchContentChange}
+    ></AdvancedSearchPage>
   )
 }
 

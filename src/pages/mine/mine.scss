@@ -1,0 +1,45 @@
+$icon-size: 120px;
+
+Page {
+  background-color: rgba(0, 0, 0, .05);
+}
+
+.mine {
+  .mine_top {
+    position: relative;
+    height: 400px;
+    background: url("../../image/building.jpeg");
+    background-size: cover;
+    margin-bottom: 30px;
+    .mine_top-name {
+      position: absolute;
+      right: 170px;
+      bottom: 40px;
+      font-size: 24PX;
+      text-align: right;
+      font-weight: bold;
+      color: cornsilk;
+    }
+
+    .mine_top-image-wrapper {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      transform: translate(-30%, 16%);
+      display: inline-block;
+      width: $icon-size;
+      height: $icon-size;
+      border-radius: 20px;
+      overflow: hidden;
+      Image {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+
+  .mine_list {
+    margin-bottom: 30px;
+  }
+
+}

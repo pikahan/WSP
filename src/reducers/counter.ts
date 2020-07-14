@@ -4,6 +4,9 @@ const INITIAL_STATE = {
   num: 0
 }
 
+export type CounterState = typeof INITIAL_STATE
+
+
 export default function counter (state = INITIAL_STATE, action) {
   switch (action.type) {
     case ADD:

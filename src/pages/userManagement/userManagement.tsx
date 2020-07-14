@@ -1,29 +1,29 @@
 import Taro, { useState } from '@tarojs/taro'
-import './enterpriseManagement.scss'
-import AdvancedSearchContent from './advancedSearchContent'
-import {EnterpriseFormData} from './advancedSearchContent'
+import './userManagement.scss'
+import {UserFormData} from './advancedSearchContent'
 import AdvancedSearchPage from '../../components/advancedSearchPage'
-import EnterpriseList from '../../components/enterpriseList'
+import AdvancedSearchContent from './advancedSearchContent'
+import UserList from '../../components/userList'
 import useEffect = Taro.useEffect
 import {useDispatch, useSelector} from '@tarojs/redux'
 import {RootState} from '../../reducers'
-import {setFilterEnterpriseData, fetchData} from '../../actions/enterprise'
 import {myFilter} from '../../util/helper'
+import {fetchData, setFilterUsersData} from '../../actions/user'
 
 
-const EnterpriseManagement = () => {
+const UserManagement = () => {
   const [name, setName] = useState('')
   // const [enterpriseData, setEnterpriseData] = useState([])
   const userData = useSelector((state: RootState) => state.user.userData)
-  const enterpriseDataFromStore = useSelector((state: RootState) => state.enterprise.enterpriseData)
-  const filterEnterpriseDataFromStore = useSelector((state: RootState) => state.enterprise.filterEnterpriseData)
+  const userDataFromStore = useSelector((state: RootState) => state.user.usersData)
+  const filterUserDataFromStore = useSelector((state: RootState) => state.user.filterUsersData)
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(fetchData())
   }, [])
-  const initialAdvancedSearchOption: EnterpriseFormData = {
-    code: '',
-    legalPerson: ''
+  const initialAdvancedSearchOption: UserFormData = {
+    typeId: 0,
+    username: ''
   }
   const [advancedSearchOption, setAdvancedSearchOption] = useState(initialAdvancedSearchOption)
   const setInputValue = (key, value) => {
@@ -32,7 +32,7 @@ const EnterpriseManagement = () => {
 
   const advancedSearchBtnClick = () => {
     console.log('AdvancedSearchBtnClick')
-    dispatch(setFilterEnterpriseData(myFilter(enterpriseDataFromStore, advancedSearchOption, name)))
+    dispatch(setFilterUsersData(myFilter(userDataFromStore, advancedSearchOption, name)))
   }
 
   const advancedSearchReset = () => {
@@ -50,14 +50,14 @@ const EnterpriseManagement = () => {
 
   const handleFloatBtnClick = () => {
     Taro.navigateTo({
-      url: '/pages/enterpriseDetail/enterpriseDetail'
+      url: '/pages/userDetail/userDetail'
     })
   }
 
   return (
     <AdvancedSearchPage
-      renderAdvancedSearchContent={<AdvancedSearchContent onValueChange={setInputValue} enterpriseFormData={advancedSearchOption} />}
-      renderList={<EnterpriseList enterpriseData={filterEnterpriseDataFromStore} />}
+      renderAdvancedSearchContent={<AdvancedSearchContent onValueChange={setInputValue} userFormData={advancedSearchOption} />}
+      renderList={<UserList userData={filterUserDataFromStore} />}
       searchContent={name}
       onAdvancedSearchBtnClick={advancedSearchBtnClick}
       onAdvancedSearchReset={advancedSearchReset}
@@ -69,9 +69,9 @@ const EnterpriseManagement = () => {
   )
 }
 
-EnterpriseManagement.config = {
+UserManagement.config = {
   navigationBarTitleText: '企业'
 }
 
-export default EnterpriseManagement
+export default UserManagement
 

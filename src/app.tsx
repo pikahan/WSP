@@ -1,11 +1,11 @@
 import Taro, { Component, Config } from '@tarojs/taro'
-import { StoreContext } from 'redux-react-hook'
 import 'taro-ui/dist/style/index.scss'
 import Index from './pages/index'
 
 import configStore from './store'
 
 import './app.scss'
+import {Provider} from '@tarojs/redux'
 
 // 如果需要在 h5 环境中开启 React Devtools
 // 取消以下注释：
@@ -28,35 +28,46 @@ class App extends Component {
     pages: [
       'pages/index/index',
       'pages/enterpriseManagement/enterpriseManagement',
-      'pages/personManagement/personManagement'
+      'pages/personManagement/personManagement',
+      'pages/mine/mine',
+      'pages/safetyHazard/safetyHazard',
+      'pages/safetyHazardDetail/safetyHazardDetail',
+      'pages/enterpriseDetail/enterpriseDetail',
+      'pages/userManagement/userManagement',
+      'pages/userDetail/userDetail',
     ],
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
       navigationBarTitleText: 'WeChat',
-      navigationBarTextStyle: 'black'
+      navigationBarTextStyle: 'black',
     },
     tabBar: {
       list: [
         {
-          pagePath: 'pages/enterpriseManagement/enterpriseManagement',
+          pagePath: 'pages/safetyHazard/safetyHazard',
           text: '安全隐患',
           iconPath: 'image/safety.png',
           selectedIconPath: 'image/safety_focused.png'
         },
         {
-          pagePath: 'pages/index/index',
+          pagePath: 'pages/enterpriseManagement/enterpriseManagement',
           text: '企业',
           iconPath: 'image/enterprise.png',
           selectedIconPath: 'image/enterprise_focused.png'
         },
         {
-          pagePath: 'pages/personManagement/personManagement',
+          pagePath: 'pages/mine/mine',
           text: '个人',
           iconPath: 'image/user.png',
           selectedIconPath: 'image/user_focused.png'
         }
       ]
+    },
+    permission: {
+      "scope.userLocation": {
+        desc: "你的位置信息将用于地图定位显示"
+      }
     }
   }
 
@@ -72,9 +83,9 @@ class App extends Component {
   // 请勿修改此函数
   render () {
     return (
-      <StoreContext.Provider value={store}>
+      <Provider store={store}>
         <Index />
-      </StoreContext.Provider>
+      </Provider>
     )
   }
 }

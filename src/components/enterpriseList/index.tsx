@@ -8,23 +8,35 @@ interface IPropEnterpriseList {
 
 interface EnterpriseData {
   name: string
-  imgSrc: string
-  note: string
+  staff: string
+  staffPhone: string
+  id: number
 }
 
 const EnterpriseList = ({ enterpriseData }: IPropEnterpriseList) => {
+
+  const handleClick = item => {
+    // Taro.chooseLocation({
+    //   complete(res) {
+    //     console.log(res)
+    //   }
+    // })
+    Taro.navigateTo({
+      url: `/pages/enterpriseDetail/enterpriseDetail?id=${item.id}`
+    })
+  }
 
   return (
     <AtList className="enterprise-list">
       {
         enterpriseData.map(enterprise => (
           <AtListItem
+            onClick={() => handleClick(enterprise)}
             title={enterprise.name}
             arrow='right'
-            note={enterprise.note}
-            thumb={enterprise.imgSrc}
+            note={`责任人:${enterprise.staff} 联系电话:${enterprise.staffPhone}`}
+            thumb="http://placehold.it/30x30"
           >
-
           </AtListItem>
         ))
       }

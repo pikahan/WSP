@@ -1,7 +1,8 @@
 import Taro from '@tarojs/taro'
 import './index.scss'
-import {Text, View} from '@tarojs/components'
+import { View } from '@tarojs/components'
 import  { AtForm, AtButton } from 'taro-ui'
+import HanTitle from '../hanTitle'
 
 interface AdvancedSearchProp {
   onSearch: () => void
@@ -13,9 +14,7 @@ const AdvancedSearch = (props: AdvancedSearchProp) => {
 
   return (
     <View>
-      <Text className="advanced-search-title">
-        高级搜索
-      </Text>
+      <HanTitle title="高级搜索"/>
       <AtForm
         onSubmit={props.onSearch}
         onReset={props.onReset}

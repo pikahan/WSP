@@ -1,8 +1,8 @@
 Arguments: 
-  /Users/yanghanling/.nvm/versions/node/v10.15.3/bin/node /usr/local/Cellar/yarn/1.17.3/libexec/bin/yarn.js add taro-ui/types/list --silent --no-progress
+  /Users/yanghanling/.nvm/versions/node/v10.15.3/bin/node /usr/local/Cellar/yarn/1.17.3/libexec/bin/yarn.js add taro-ui/types/input --silent --no-progress
 
 PATH: 
-  /Users/yanghanling/.nvm/versions/node/v10.15.3/lib/node_modules/npm/node_modules/npm-lifecycle/node-gyp-bin:/Users/yanghanling/WebstormProjects/we-project/node_modules/.bin:/var/folders/g4/smxtfwm17lddlljnsvcpbpyc0000gn/T/yarn--1593933766692-0.36943551559086285:/Users/yanghanling/WebstormProjects/we-project/node_modules/.bin:/Users/yanghanling/.config/yarn/link/node_modules/.bin:/Users/yanghanling/.nvm/versions/node/v10.15.3/libexec/lib/node_modules/npm/bin/node-gyp-bin:/Users/yanghanling/.nvm/versions/node/v10.15.3/lib/node_modules/npm/bin/node-gyp-bin:/Users/yanghanling/.nvm/versions/node/v10.15.3/bin/node_modules/npm/bin/node-gyp-bin:/Users/yanghanling/Sites/apache-maven-3.6.1/bin:/Library/Java/JavaVirtualMachines/jdk-10.0.2.jdk/Contents/Home/bin:/usr/local/mongodb/bin:/Users/yanghanling/.nvm/versions/node/v10.15.3/bin:/Users/yanghanling/LLVM/build/bin:/Users/yanghanling/anaconda3/bin:/usr/local/bin:/usr/local/sbin:/Users/yanghanling/bin:/usr/local/bin:/Library/Frameworks/Python.framework/Versions/3.6/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/VMware Fusion.app/Contents/Public:/usr/local/aria2/bin:/usr/local/share/dotnet:/opt/X11/bin:~/.dotnet/tools:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Applications/Wireshark.app/Contents/MacOS:/Applications/Postgres.app/Contents/Versions/latest/bin:.bricinc_LICENSE:foundry_LICENSE:genarts_LICENSE:golaem_LICENSE:innobright_LICENSE:mootzoid_LICENSE:nextlimit_LICENSE:peregrinel_LICENSE:redshift_LICENSE:solidangle_LICENSE:SFX_LICENSE_SERVER:RLM_LICENSE
+  /Users/yanghanling/.nvm/versions/node/v10.15.3/lib/node_modules/npm/node_modules/npm-lifecycle/node-gyp-bin:/Users/yanghanling/WebstormProjects/we-project/node_modules/.bin:/var/folders/g4/smxtfwm17lddlljnsvcpbpyc0000gn/T/yarn--1594093589473-0.5723777503626706:/Users/yanghanling/WebstormProjects/we-project/node_modules/.bin:/Users/yanghanling/.config/yarn/link/node_modules/.bin:/Users/yanghanling/.nvm/versions/node/v10.15.3/libexec/lib/node_modules/npm/bin/node-gyp-bin:/Users/yanghanling/.nvm/versions/node/v10.15.3/lib/node_modules/npm/bin/node-gyp-bin:/Users/yanghanling/.nvm/versions/node/v10.15.3/bin/node_modules/npm/bin/node-gyp-bin:/Users/yanghanling/Sites/apache-maven-3.6.1/bin:/Library/Java/JavaVirtualMachines/jdk-10.0.2.jdk/Contents/Home/bin:/usr/local/mongodb/bin:/Users/yanghanling/.nvm/versions/node/v10.15.3/bin:/Users/yanghanling/LLVM/build/bin:/Users/yanghanling/anaconda3/bin:/usr/local/bin:/usr/local/sbin:/Users/yanghanling/bin:/usr/local/bin:/Library/Frameworks/Python.framework/Versions/3.6/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/VMware Fusion.app/Contents/Public:/usr/local/aria2/bin:/usr/local/share/dotnet:/opt/X11/bin:~/.dotnet/tools:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Applications/Wireshark.app/Contents/MacOS:/Applications/Postgres.app/Contents/Versions/latest/bin:.bricinc_LICENSE:foundry_LICENSE:genarts_LICENSE:golaem_LICENSE:innobright_LICENSE:mootzoid_LICENSE:nextlimit_LICENSE:peregrinel_LICENSE:redshift_LICENSE:solidangle_LICENSE:SFX_LICENSE_SERVER:RLM_LICENSE
 
 Yarn version: 
   1.17.3
@@ -14,17 +14,8 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: https://registry.npm.taobao.org/taro-ui%2ftypes/list: Request "https://registry.npm.taobao.org/taro-ui%2ftypes/list" returned a 405
-      at Request.params.callback [as _callback] (/usr/local/Cellar/yarn/1.17.3/libexec/lib/cli.js:66839:18)
-      at Request.self.callback (/usr/local/Cellar/yarn/1.17.3/libexec/lib/cli.js:140464:22)
-      at Request.emit (events.js:189:13)
-      at Request.<anonymous> (/usr/local/Cellar/yarn/1.17.3/libexec/lib/cli.js:141436:10)
-      at Request.emit (events.js:189:13)
-      at IncomingMessage.<anonymous> (/usr/local/Cellar/yarn/1.17.3/libexec/lib/cli.js:141358:12)
-      at Object.onceWrapper (events.js:277:13)
-      at IncomingMessage.emit (events.js:194:15)
-      at endReadableNT (_stream_readable.js:1125:12)
-      at process._tickCallback (internal/process/next_tick.js:63:19)
+  Error: getaddrinfo ENOTFOUND registry.npm.taobao.org registry.npm.taobao.org:443
+      at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:56:26)
 
 npm manifest: 
   {
