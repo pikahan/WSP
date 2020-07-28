@@ -33,6 +33,8 @@ const Index = () => {
 
   const login = () => {
 
+    console.log(loginData)
+
     Taro.request({
       url: `${REQUEST_URL}login`,
       method: 'POST',
@@ -49,6 +51,11 @@ const Index = () => {
             userType: '管理员',
             enterpriseId: 1
           }))
+          Taro.setStorageSync('userInfo', {
+            username: 'Admin',
+            userType: '管理员',
+            enterpriseId: 1
+          })
 
         }
       }

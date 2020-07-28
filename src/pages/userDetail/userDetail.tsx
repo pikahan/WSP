@@ -3,8 +3,8 @@ import './userDetail.scss'
 import {View, Picker, Button} from '@tarojs/components'
 import {AtForm, AtMessage, AtInput, AtListItem, AtButton, AtList} from 'taro-ui'
 import {REQUEST_URL} from '../../constants/counter'
-import {fetchData} from '../../actions/enterprise'
 import {useDispatch} from '@tarojs/redux'
+import {fetchData} from '../../actions/user'
 
 const type = ['员工', '管理员', '安管员', '安管负责人', '应急局人员']
 const UserDetail = () => {
@@ -16,10 +16,10 @@ const UserDetail = () => {
   }
   const [formData, setFormData] = useState({
     username: '',
-    password: '',
     userTypeId: 0,
     enterpriseId: 1,
-    enterpriseName: ''
+    enterpriseName: '能力有限公司',
+    password: ''
   })
 
   const setFormValue = (key, value) => {
@@ -33,7 +33,6 @@ const UserDetail = () => {
       url: `${REQUEST_URL}register`,
       method: 'POST',
       data: JSON.stringify(formData),
-      header: {'content-type': 'application/json;charset=utf-8'},
       complete(res) {
         console.log(res)
         let { data,  statusCode} = res as any
@@ -69,12 +68,34 @@ const UserDetail = () => {
         let { data,  statusCode} = res as any
         if (statusCode === 200) {
           console.log(data)
-          setFormData(data.data)
+          const {username, enterpriseId, userTypeId} = data.data
+          setTypeIndex(userTypeId)
+          setFormData({ username, enterpriseId, userTypeId, enterpriseName: '能力有限公司', password: '' })
         }
       }
     })
-
   }, [])
+
+  const handleUpdate = () => {
+    console.log('formdata')
+    console.log(formData)
+    let { password, ...restData } = formData
+    Taro.request({
+      url: `${REQUEST_URL}update/user`,
+      data: JSON.stringify({...restData, id: router.params.id}),
+      method: 'POST',
+      complete(res) {
+        let { data,  statusCode} = res as any
+        if (statusCode === 200) {
+          console.log(data)
+          dispatch(fetchData())
+          Taro.navigateBack({
+            delta: 1
+          })
+        }
+      }
+    })
+  }
 
   const handleDelete = () => {
     Taro.request({
@@ -107,14 +128,17 @@ const UserDetail = () => {
           value={formData.username}
           onChange={value => setFormValue('username', value)}
         />
-        <AtInput
-          name='password'
-          title='密码'
-          type='password'
-          placeholder='输入密码'
-          value={formData.password}
-          onChange={value => setFormValue('password', value)}
-        />
+        {
+          !btnDisabled &&
+          <AtInput
+            name='password'
+            title='密码'
+            type='password'
+            placeholder='输入密码'
+            value={formData.password}
+            onChange={value => setFormValue('password', value)}
+          />        }
+
         <AtInput
           name='enterpriseName'
           title='企业名称'
@@ -123,6 +147,8 @@ const UserDetail = () => {
           value={formData.enterpriseName}
           onChange={value => setFormValue('enterpriseName', value)}
         />
+
+
 
         <Picker
           mode='selector'
@@ -145,8 +171,8 @@ const UserDetail = () => {
           {
             btnDisabled &&
               <View>
-                <AtButton className="user-submit-btn" type='primary' >修改</AtButton>
-                <Button  className="user-submit-btn" type="warn" onClick={handleDelete}>退出登录</Button>
+                <AtButton className="user-submit-btn" type='primary' onClick={handleUpdate} >修改</AtButton>
+                <Button  className="user-submit-btn" type="warn" onClick={handleDelete}>删除</Button>
               </View>
           }
         </View>
@@ -156,7 +182,7 @@ const UserDetail = () => {
 }
 
 UserDetail.config = {
-  navigationBarTitleText: '企业'
+  navigationBarTitleText: 'user'
 }
 
 export default UserDetail

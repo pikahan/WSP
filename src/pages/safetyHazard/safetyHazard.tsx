@@ -52,13 +52,10 @@ const SafetyHazard = () => {
 
   useEffect(() => {
     dispatch(fetchData())
-  }, [])
-
-
-
-  useEffect(() => {
     dispatch(fetchCategory())
+
   }, [])
+
 
   const [advancedSearchOption, setAdvancedSearchOption] = useState(initialAdvancedSearchOption)
   const setInputValue = (key, value) => {
@@ -105,7 +102,7 @@ const SafetyHazard = () => {
 }
 
 SafetyHazard.config = {
-  navigationBarTitleText: '企业管理',
+  navigationBarTitleText: '隐患',
   enablePullDownRefresh: true
 }
 

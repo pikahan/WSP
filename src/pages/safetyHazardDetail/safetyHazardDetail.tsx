@@ -21,7 +21,9 @@ const initialPermission = {
 }
 
 const getFileList = src => {
-  return src.split('\t').map(src => ({ url: REQUEST_URL + 'static' + src}))
+  let res = src.split('\t').map(src => ({ url: REQUEST_URL + 'static' + src}))
+  console.log(res)
+  return res
 }
 
 const getPermissions = (userType, pageType, hazardStep) => {
@@ -29,18 +31,15 @@ const getPermissions = (userType, pageType, hazardStep) => {
 
   if (userType !== '员工') {
     ret.hazardDetailPageTwoEditPermission = true
+    ret.hazardDetailPageTwoEditPermission = true
     ret.hazardDetailPageThreeEditPermission = true
 
-  }
-
-  if (pageType === 'add') {
-    ret.hazardDetailPageTwoEditPermission = false
-    ret.hazardDetailPageThreeEditPermission = false
   }
 
   if (hazardStep === 1) {
     ret.hazardDetailPageOneEditPermission = false
     ret.hazardDetailPageThreeEditPermission = false
+
   }
 
   if (hazardStep === 2) {
@@ -50,6 +49,12 @@ const getPermissions = (userType, pageType, hazardStep) => {
 
   if (hazardStep === 3) {
     ret.hazardDetailPageOneEditPermission = false
+    ret.hazardDetailPageTwoEditPermission = false
+    ret.hazardDetailPageThreeEditPermission = false
+  }
+
+  if (pageType === 'add') {
+    ret.hazardDetailPageOneEditPermission = true
     ret.hazardDetailPageTwoEditPermission = false
     ret.hazardDetailPageThreeEditPermission = false
   }
@@ -67,8 +72,9 @@ const SafetyHazardDetail = () => {
   const dispatch = useDispatch()
   const [file, setFile] = useState<any>([]) // 文档
   const [solvedImageFiles, setSolvedImageFiles] = useState<any>([])
-  const [files, setFiles] = useState<any>([]) // 拍照
 
+
+  const [files, setFiles] = useState<any>([]) // 拍照
   const [showAddBtn, setShowAddBtn] = useState(true)
 
   const [canvasHeight, setCanvasHeight] = useState(0)
@@ -195,7 +201,6 @@ const SafetyHazardDetail = () => {
         if (statusCode === 200) {
           console.log(res)
           let { shootingImgSrc, name, level, limitedTime, description, measures, hazardTypeId, status, fileSrc, resolvedImgSrcList, troubleshooter, rectificationDate, ...rest } = data.data as any
-          // console.log(REQUEST_URL + 'static' + shootingImgSrc)
           let shootingImgList = getFileList(shootingImgSrc)
           console.log(shootingImgList)
           setFiles(shootingImgList)
@@ -268,14 +273,25 @@ const SafetyHazardDetail = () => {
     }))
   }
 
+  const uploadFileMu = async (images, url, key) => {
+    for (let i = 0; i< images.length; i++) {
+      let imageFiles = images[i]
+      await Taro.uploadFile({
+        url,
+        filePath: imageFiles.url ? imageFiles.url : imageFiles.path,
+        name: key,
+        complete(res) {
+          console.log(res)
+        }
+      })
+    }
+
+    return Promise.resolve()
+  }
+
   const handleSubmit = () => {
     console.log(formData)
-    //
-    // hazardTypeId: -1,
-    //   description: '',
-    //   measures: '',
-    //   limitedTime: 0,
-    //
+
     const requestData = {
       hazardTypeId: formData.hazardTypeId,
       description: formData.description,
@@ -300,7 +316,7 @@ const SafetyHazardDetail = () => {
         console.log(res)
         if (data.status === 200) {
           // 上传图片
-          uploadFile(files,  `${REQUEST_URL}upload/shootingimg?hazardId=${data.data}`, "file").then(() => {
+          uploadFileMu(files,  `${REQUEST_URL}upload/shootingimg?hazardId=${data.data}`, "file").then(() => {
             dispatch(fetchData())
             Taro.navigateBack({
               delta: 1
@@ -415,7 +431,13 @@ const SafetyHazardDetail = () => {
 
   const handleFileDownload = () => {
     Taro.downloadFile({
-      url: file[0].url
+      url: file[0].url,
+      success(res) {
+        console.log(res)
+        Taro.saveFile({
+          tempFilePath: res.tempFilePath
+        })
+      }
     })
   }
 
@@ -662,4 +684,47 @@ SafetyHazardDetail.config = {
 }
 
 export default SafetyHazardDetail
+
+
+function addWatermark(option) {
+  const {canvasId, fileSrc, setCanvasSize, callback, gap, fontSize, color, stringList} = option
+
+  // 2. 上传图片后通过`getImageInfo`获得图片信息
+  Taro.getImageInfo({
+    src: fileSrc,
+    success(res) {
+
+      // 3. 在getImageInfo调用成功的回调函数中创建 canvas 的绘图上下文, 设置画板的宽高为图片的宽高, 并通过drawImage将图片绘制到画板上
+      let ctx = Taro.createCanvasContext(canvasId)
+      let width = res.width
+      let height = res.height
+      setCanvasSize(height, width)
+
+      // 4. 绘制水印
+      ctx.drawImage(res.path, 0, 0, width, height)
+      ctx.beginPath()
+      ctx.setFontSize(fontSize)
+      ctx.setFillStyle(color)
+      stringList.forEach((str, i) => {
+        ctx.fillText(str, 10, gap*(i+1))
+      })
+      ctx.draw(false, () => {
+
+        // 通过canvasToTempFilePath导出在canvas中添加了水印的图片, 并在其success回调函数中覆盖原有的图片信息
+        Taro.canvasToTempFilePath({
+          x: 0,
+          y: 0,
+          width,
+          height,
+          destWidth: width,
+          destHeight: height,
+          canvasId: canvasId,
+          success(res) {
+            callback(res.tempFilePath)
+          }
+        })
+      })
+    }
+  })
+}
 
