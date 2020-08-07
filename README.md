@@ -15,16 +15,16 @@ Taro、React、React Hooks API、Redux、Redux Thunk、React Router、TypeScript
 ## 项目图片展示
 
 ### 数据展示 
-![数据展示](./presentation/IMG_5750.png)
+![数据展示](./presentation/IMG_5750.PNG)
 
 ### 数据筛选
-![数据筛选](./presentation/IMG_5751.png)
-![数据筛选](./presentation/IMG_5753.png)
+![数据筛选](./presentation/IMG_5751.PNG)
+![数据筛选](./presentation/IMG_5753.PNG)
 
 ### 企业位置登记
-![企业位置登记](./presentation/IMG_5756.png)
+![企业位置登记](./presentation/IMG_5756.PNG)
 
 ### 上传文件以及图片
-![数据筛选](./presentation/IMG_5754.png)
-![数据筛选](./presentation/IMG_5757.png)
-![数据筛选](./presentation/IMG_5758.png)
+![数据筛选](./presentation/IMG_5754.PNG)
+![数据筛选](./presentation/IMG_5757.PNG)
+![数据筛选](./presentation/IMG_5758.PNG)
