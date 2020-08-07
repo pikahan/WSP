@@ -67,6 +67,20 @@ const forSafetyHazardLevel = index => {
   return levels[index]
 }
 
+function debounce(delay, fn) {
+  let timer
+  return function(...args) {
+    if (timer) {
+      clearTimeout(timer)
+    }
+    timer = setTimeout(() => {
+      timer = null
+      fn.apply(this, args)
+    }, delay)
+  }
+}
+
+
 const SafetyHazardDetail = () => {
   const [permissions, setPermissions] = useState<Permissions>(initialPermission)
   const dispatch = useDispatch()
@@ -74,15 +88,16 @@ const SafetyHazardDetail = () => {
   const [solvedImageFiles, setSolvedImageFiles] = useState<any>([])
 
 
-  const [files, setFiles] = useState<any>([]) // 拍照
+  const [files, setFiles] = useState<any>([]) // 照片
   const [showAddBtn, setShowAddBtn] = useState(true)
 
+  // 添加水印用到的canvas
   const [canvasHeight, setCanvasHeight] = useState(0)
   const [canvasWidth, setCanvasWidth] = useState(0)
 
+
   const handleImageChange = value => {
-    console.log(value)
-    let ret = []
+    // 添加水印的操作
     value.forEach(file => {
       Taro.getImageInfo({
         src: file.url,
@@ -121,19 +136,16 @@ const SafetyHazardDetail = () => {
       })
     })
 
-
-
-    if (value.length > 3) {
+    if (value.length > 3) { // 如果图片数量大于三会发送警告
       return Taro.atMessage({
         message: '最多上传三张图片',
         type: 'error'
       })
-    } else if (value.length === 3) {
+    } else if (value.length === 3) { // 等于三会隐藏添加按钮
       setShowAddBtn(false)
     } else {
       setShowAddBtn(true)
     }
-    // setFiles(files)
   }
 
   const solvedLevels = ['完成整改', '未完成整改']
@@ -686,45 +698,8 @@ SafetyHazardDetail.config = {
 export default SafetyHazardDetail
 
 
-function addWatermark(option) {
-  const {canvasId, fileSrc, setCanvasSize, callback, gap, fontSize, color, stringList} = option
 
-  // 2. 上传图片后通过`getImageInfo`获得图片信息
-  Taro.getImageInfo({
-    src: fileSrc,
-    success(res) {
 
-      // 3. 在getImageInfo调用成功的回调函数中创建 canvas 的绘图上下文, 设置画板的宽高为图片的宽高, 并通过drawImage将图片绘制到画板上
-      let ctx = Taro.createCanvasContext(canvasId)
-      let width = res.width
-      let height = res.height
-      setCanvasSize(height, width)
 
-      // 4. 绘制水印
-      ctx.drawImage(res.path, 0, 0, width, height)
-      ctx.beginPath()
-      ctx.setFontSize(fontSize)
-      ctx.setFillStyle(color)
-      stringList.forEach((str, i) => {
-        ctx.fillText(str, 10, gap*(i+1))
-      })
-      ctx.draw(false, () => {
 
-        // 通过canvasToTempFilePath导出在canvas中添加了水印的图片, 并在其success回调函数中覆盖原有的图片信息
-        Taro.canvasToTempFilePath({
-          x: 0,
-          y: 0,
-          width,
-          height,
-          destWidth: width,
-          destHeight: height,
-          canvasId: canvasId,
-          success(res) {
-            callback(res.tempFilePath)
-          }
-        })
-      })
-    }
-  })
-}
 
